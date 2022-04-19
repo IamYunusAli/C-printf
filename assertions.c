@@ -1,4 +1,4 @@
-#include "holberton.h"
+#include "main.h"
 
 /**
  * invalidInputs - validates user did not enter invalid inputs
