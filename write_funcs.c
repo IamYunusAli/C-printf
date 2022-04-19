@@ -1,4 +1,4 @@
-#include "main.h"
+#include "holberton.h"
 #include <unistd.h>
 
 /**
@@ -11,15 +11,14 @@
  */
 int _putchar(char c)
 {
-	static char buf[1024];
+	static char buf[KILOBYTE];
 	static int i;
 
-	if (c == -1 || i >= 1024)
+	if (c == FLUSH || i >= KILOBYTE)
 	{
 		write(1, &buf, i);
 		i = 0;
-	}
-	if (c != -1)
+	} else
 	{
 		buf[i] = c;
 		i++;
@@ -34,9 +33,9 @@ int _putchar(char c)
  */
 int _puts(char *str)
 {
-	register int i;
+	register short i;
 
-	for (i = 0; str[i] != '\0'; i++)
+	for (i = 0; str[i]; i++)
 		_putchar(str[i]);
 	return (i);
 }
