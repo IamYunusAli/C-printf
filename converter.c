@@ -17,11 +17,11 @@ char *convert(unsigned long int num, int base, int lowercase)
 		? "0123456789abcdef"
 		: "0123456789ABCDEF";
 	ptr = &buffer[49];
-	*ptr = NUL;
+	*ptr = '\0';
 	do {
 		*--ptr = rep[num % base];
 		num /= base;
-	} while (num);
+	} while (num != 0);
 
 	return (ptr);
 }

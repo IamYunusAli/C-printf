@@ -7,17 +7,19 @@
  * if a flag is passed to _printf
  * Return: number of char printed
  */
-int print_address(va_list l, mods *f)
+int print_address(va_list l, flags_t *f)
 {
 	char *str;
 	unsigned long int p = va_arg(l, unsigned long int);
 
-	register int len = 0;
+	register int count = 0;
 
 	(void)f;
+
 	if (!p)
-		return (_puts(NIL));
+		return (_puts("(nil)"));
 	str = convert(p, 16, 1);
-	len += _puts(HEXA) + _puts(str);
-	return (len);
+	count += _puts("0x");
+	count += _puts(str);
+	return (count);
 }

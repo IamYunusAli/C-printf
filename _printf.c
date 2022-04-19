@@ -10,34 +10,38 @@
  */
 int _printf(const char *format, ...)
 {
-	register short len = 0;
-	int (*printFunc)(va_list, mods *);
-	mods prefixes = PF_INIT;
-	const char *p = format;
+	int (*pfunc)(va_list, flags_t *);
+	const char *p;
 	va_list arguments;
+	flags_t flags = {0, 0, 0};
+
+	register int count = 0;
 
 	va_start(arguments, format);
-	assert(invalidInputs(p));
-	for (; *p; p++)
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = format; *p; p++)
 	{
 		if (*p == '%')
 		{
 			p++;
 			if (*p == '%')
 			{
-				len += _putchar('%');
+				count += _putchar('%');
 				continue;
 			}
-			while (get_flags(*p, &prefixes))
+			while (get_flag(*p, &flags))
 				p++;
-			printFunc = get_print(*p);
-			len += (printFunc)
-				? printFunc(arguments, &prefixes)
+			pfunc = get_print(*p);
+			count += (pfunc)
+				? pfunc(arguments, &flags)
 				: _printf("%%%c", *p);
 		} else
-			len += _putchar(*p);
+			count += _putchar(*p);
 	}
-	_putchar(FLUSH);
+	_putchar(-1);
 	va_end(arguments);
-	return (len);
+	return (count);
 }
